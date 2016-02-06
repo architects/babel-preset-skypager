@@ -1,6 +1,7 @@
 var plugins = [
   "babel-plugin-check-es2015-constants",
   "babel-plugin-syntax-jsx",
+  "babel-plugin-syntax-async-functions",
   "babel-plugin-syntax-trailing-function-commas",
   "babel-plugin-transform-class-properties",
   "babel-plugin-transform-es2015-arrow-functions",
@@ -31,20 +32,6 @@ var plugins = [
   "babel-plugin-transform-strict-mode"
 ]
 
-if (process.env.NODE_ENV === 'development') {
-  plugins.push([ require('babel-plugin-react-transform').default, {
-		transforms:[
-			{
-				transform: require.resolve('react-transform-hmr'),
-				imports: ['react'],
-				locals: ['module'],
-			}, {
-				transform: require.resolve('react-transform-catch-errors'),
-				imports: ['react', require.resolve('redbox-react')],
-			}]
-	}])
-}
-
 module.exports = {
-  plugins: plugins
+  plugins: plugins.map(function(p){ return require.resolve(p) })
 }
